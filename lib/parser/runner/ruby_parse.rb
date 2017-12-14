@@ -94,6 +94,7 @@ module Parser
 
       @locate = false
       @emit_ruby = false
+      @emit_json = false
     end
 
     private
@@ -118,6 +119,10 @@ module Parser
       opts.on '--emit-ruby', 'Emit S-expressions as valid Ruby code' do
         @emit_ruby = true
       end
+
+      opts.on '--emit-json', 'Emit S-expressions as JSON' do
+        @emit_json = true
+      end
     end
 
     def process_all_input
@@ -136,6 +141,9 @@ module Parser
       elsif !@benchmark
         if @emit_ruby
           puts ast.inspect
+        elsif @emit_json
+          require 'json'
+          puts ast.to_json
         else
           puts ast.to_s
         end
